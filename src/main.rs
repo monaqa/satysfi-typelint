@@ -45,7 +45,7 @@ fn extract_type_error(block: &[&str]) -> Option<TypeErrorMessage> {
     let regex_file = Regex::new(r#""(.*)""#).unwrap();
     // TODO: capture range
     let regex_line = Regex::new(r"line (\d+)").unwrap();
-    let regex_chars = Regex::new(r"characters (\d+)").unwrap();
+    let regex_chars = Regex::new(r"characters? (\d+)").unwrap();
     block
         .iter()
         .enumerate()
@@ -67,7 +67,7 @@ fn extract_type_error(block: &[&str]) -> Option<TypeErrorMessage> {
 
             let characters = regex_chars.captures(s);
             if characters.is_none() {
-                eprintln!("characters pattern not found.");
+                eprintln!("[ERROR] characters pattern not found.");
                 return None;
             }
             let characters: usize = characters
